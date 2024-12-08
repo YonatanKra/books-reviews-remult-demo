@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      class Comp extends HTMLElement {
+        get p() {
+          return this.shadowRoot.querySelector('p');
+        }
+
+        constructor() {
+          super();
+          this.attachShadow({mode: "open"});
+          this.shadowRoot.innerHTML = '<p>Hey!</p>';
+          this.p.addEventListener('click', this.#eventHandler1);
+          this.p.addEventListener('click', this.#eventHandler2);
+          this.p.addEventListener('click', this.#eventHandler3);
+        }
+
+        #logger(msg) {
+          console.log(msg);
+        }
+
+        #eventHandler1(e) {
+          this.#logger('Handler1');
+        }
+
+        #eventHandler2 = (e) => this.#logger('Handler2');
+
+        #eventHandler3 = function(e) {
+          this.#logger('Handler3');
+        }
+      }
+      customElements.define('my-comp', Comp);
+    </script>
+    <my-comp></my-comp>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
